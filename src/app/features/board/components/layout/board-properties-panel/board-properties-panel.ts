@@ -1,15 +1,18 @@
 // BoardPropertiesPanelComponent
 // ---
-// Panel derecho donde, en etapas futuras, se mostrarán las propiedades del
-// objeto seleccionado (color, tamaño, contenido, posición).
+// Panel derecho donde se muestran las propiedades del objeto seleccionado
+// (id, tipo, posicion, tamano y contenido).
 //
-// En esta etapa no hay todavía concepto de "objeto seleccionado" en el
-// estado, así que el panel muestra un placeholder. Está creado ya para que
-// la estructura del shell sea simétrica desde el inicio (topbar, toolbar
-// izquierdo, canvas, panel derecho) y para que el lector entienda dónde
-// vivirá la inspección de propiedades cuando llegue.
+// Hasta la Etapa 4 era un placeholder estatico. Desde la Etapa 5 consume el
+// computed `selectedObject` de BoardSelectionService. El panel no hace el
+// lookup manual por id: el servicio ya combina seleccion (estado de UI) con
+// objetos del board (estado del documento).
+//
+// Por ahora es de solo lectura. En etapas futuras podra editar contenido,
+// color, posicion y tamano desde este mismo lugar.
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { BoardSelectionService } from '../../../services/board-selection.service';
 
 @Component({
   selector: 'app-board-properties-panel',
@@ -17,4 +20,8 @@ import { Component } from '@angular/core';
   templateUrl: './board-properties-panel.html',
   styleUrl: './board-properties-panel.css',
 })
-export class BoardPropertiesPanelComponent {}
+export class BoardPropertiesPanelComponent {
+  private readonly selectionService = inject(BoardSelectionService);
+
+  readonly selectedObject = this.selectionService.selectedObject;
+}

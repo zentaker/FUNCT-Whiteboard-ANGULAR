@@ -23,6 +23,7 @@
 import { Component, inject } from '@angular/core';
 import { BoardStateService } from '../../../services/board-state.service';
 import { BoardObjectService } from '../../../services/board-object.service';
+import { BoardSelectionService } from '../../../services/board-selection.service';
 import { Point } from '../../../models/point.model';
 import { DraggableObjectDirective } from '../../interaction/draggable-object/draggable-object.directive';
 import { BoardObjectComponent } from '../../objects/board-object/board-object';
@@ -37,6 +38,7 @@ import { BoardObjectComponent } from '../../objects/board-object/board-object';
 export class BoardCanvasComponent {
   private readonly state = inject(BoardStateService);
   private readonly objectService = inject(BoardObjectService);
+  private readonly selectionService = inject(BoardSelectionService);
 
   readonly objects = this.state.objects;
 
@@ -45,5 +47,18 @@ export class BoardCanvasComponent {
   // deja que el signal actualice el template.
   async onObjectDragged(objectId: string, position: Point): Promise<void> {
     await this.objectService.moveObject(objectId, position.x, position.y);
+  }
+
+  // Selecciona el objeto antes de que empiece el drag. stopPropagation evita
+  // que el mismo mousedown burbujee al canvas y borre la seleccion.
+  onObjectMouseDown(objectId: string, event: MouseEvent): void {
+    event.stopPropagation();
+    this.selectionService.select(objectId);
+  }
+
+  // Mousedown en canvas vacio deselecciona. Si el evento viene de un objeto,
+  // no llega aqui porque onObjectMouseDown detiene el bubbling.
+  onCanvasMouseDown(): void {
+    this.selectionService.deselect();
   }
 }

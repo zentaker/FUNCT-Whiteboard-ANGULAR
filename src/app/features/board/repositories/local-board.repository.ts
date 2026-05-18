@@ -55,4 +55,18 @@ export class LocalBoardRepository extends BoardRepository {
       updatedAt: new Date(),
     });
   }
+
+  async deleteObject(boardId: string, objectId: string): Promise<void> {
+    const board = this.boards.get(boardId);
+    if (!board) {
+      throw new Error(`No existe el tablero con id "${boardId}"`);
+    }
+
+    const nextObjects = board.objects.filter((obj) => obj.id !== objectId);
+    this.boards.set(boardId, {
+      ...board,
+      objects: nextObjects,
+      updatedAt: new Date(),
+    });
+  }
 }

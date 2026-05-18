@@ -4,7 +4,10 @@
   estado y por cada uno pinta el dispatcher, que decide qué componente
   visual usar. La grilla de puntos del fondo está en el CSS asociado.
 -->
-<div class="board-canvas position-relative w-100 h-100">
+<div
+  class="board-canvas position-relative w-100 h-100"
+  (mousedown)="onCanvasMouseDown()"
+>
   @for (obj of objects(); track obj.id) {
     <app-board-object
       [object]="obj"
@@ -12,6 +15,7 @@
       [initialX]="obj.x"
       [initialY]="obj.y"
       (dragged)="onObjectDragged(obj.id, $event)"
+      (mousedown)="onObjectMouseDown(obj.id, $event)"
     />
   }
 </div>

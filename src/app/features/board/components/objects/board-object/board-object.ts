@@ -18,13 +18,15 @@
 // componente se dispara por cada tipo, en orden. @switch funcionaría
 // igualmente bien; el @if con cinco ramas explícitas es más narrativo.
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, computed, inject } from '@angular/core';
 import { BoardObject } from '../../../models/board-object.model';
+import { BoardSelectionService } from '../../../services/board-selection.service';
 import { StickyNoteObjectComponent } from '../sticky-note-object/sticky-note-object';
 import { RectangleObjectComponent } from '../rectangle-object/rectangle-object';
 import { TextObjectComponent } from '../text-object/text-object';
 import { ComicBubbleObjectComponent } from '../comic-bubble-object/comic-bubble-object';
 import { LineObjectComponent } from '../line-object/line-object';
+import { SelectionBoxComponent } from '../../interaction/selection-box/selection-box';
 
 @Component({
   selector: 'app-board-object',
@@ -35,6 +37,7 @@ import { LineObjectComponent } from '../line-object/line-object';
     TextObjectComponent,
     ComicBubbleObjectComponent,
     LineObjectComponent,
+    SelectionBoxComponent,
   ],
   templateUrl: './board-object.html',
   styleUrl: './board-object.css',
@@ -50,4 +53,12 @@ import { LineObjectComponent } from '../line-object/line-object';
 })
 export class BoardObjectComponent {
   @Input({ required: true }) object!: BoardObject;
+
+  private readonly selectionService = inject(BoardSelectionService);
+
+  // Computed: true si este objeto es el actualmente seleccionado.
+  // El template lo usa para decidir si renderiza el SelectionBoxComponent.
+  readonly isSelected = computed(
+    () => this.selectionService.selectedObjectId() === this.object.id,
+  );
 }

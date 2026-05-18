@@ -30,4 +30,5 @@ export abstract class BoardRepository {
   abstract getBoard(id: string): Promise<BoardDocument | null>;
   abstract saveBoard(board: BoardDocument): Promise<void>;
   abstract updateObject(boardId: string, object: BoardObject): Promise<void>;
+  abstract deleteObject(boardId: string, objectId: string): Promise<void>;
 }

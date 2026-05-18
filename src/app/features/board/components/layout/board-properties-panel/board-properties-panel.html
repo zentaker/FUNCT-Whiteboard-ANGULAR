@@ -1,13 +1,42 @@
 <!--
   BoardPropertiesPanel
-  Estructura: aside con título y cuerpo. El cuerpo está vacío en esta etapa;
-  en la etapa de Selection mostrará un formulario con las propiedades del
-  objeto seleccionado.
+  Si hay seleccion muestra datos de solo lectura; si no, conserva el
+  placeholder simple para guiar al usuario.
 -->
 <aside class="border-start bg-white p-3 board-properties-panel">
   <h6 class="text-uppercase text-muted small fw-semibold mb-3">Propiedades</h6>
 
-  <div class="alert alert-light border small mb-0" role="status">
-    Selecciona un objeto para ver sus propiedades.
-  </div>
+  @if (selectedObject(); as obj) {
+    <dl class="row small mb-0">
+      <dt class="col-5 text-muted">ID</dt>
+      <dd class="col-7 text-truncate">{{ obj.id }}</dd>
+
+      <dt class="col-5 text-muted">Tipo</dt>
+      <dd class="col-7">{{ obj.type }}</dd>
+
+      <dt class="col-5 text-muted">Posicion</dt>
+      <dd class="col-7">x: {{ obj.x }}, y: {{ obj.y }}</dd>
+
+      <dt class="col-5 text-muted">Tamano</dt>
+      <dd class="col-7">{{ obj.width }} x {{ obj.height }}</dd>
+
+      <dt class="col-5 text-muted">Contenido</dt>
+      <dd class="col-7">
+        @if (obj.content) {
+          {{ obj.content }}
+        } @else {
+          <span class="text-muted">Sin contenido</span>
+        }
+      </dd>
+    </dl>
+
+    <hr class="my-3" />
+    <p class="text-muted small mb-0">
+      Presiona <kbd>Delete</kbd> o <kbd>Backspace</kbd> para eliminar.
+    </p>
+  } @else {
+    <div class="alert alert-light border small mb-0" role="status">
+      Selecciona un objeto para ver sus propiedades.
+    </div>
+  }
 </aside>

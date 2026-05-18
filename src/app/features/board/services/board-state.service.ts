@@ -59,4 +59,14 @@ export class BoardStateService {
     const refreshed = await this.repository.getBoard(board.id);
     this.activeBoardSignal.set(refreshed);
   }
+
+  async deleteObject(objectId: string): Promise<void> {
+    const board = this.activeBoardSignal();
+    if (!board) {
+      return;
+    }
+    await this.repository.deleteObject(board.id, objectId);
+    const refreshed = await this.repository.getBoard(board.id);
+    this.activeBoardSignal.set(refreshed);
+  }
 }

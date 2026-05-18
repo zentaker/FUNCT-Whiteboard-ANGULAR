@@ -20,3 +20,7 @@
 @if (object.type === 'line') {
   <app-line-object [line]="object" />
 }
+
+@if (isSelected()) {
+  <app-selection-box />
+}

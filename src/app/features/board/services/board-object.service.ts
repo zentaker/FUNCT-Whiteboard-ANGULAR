@@ -37,4 +37,12 @@ export class BoardObjectService {
     }
     await this.state.updateObject({ ...current, content });
   }
+
+  async deleteObject(id: string): Promise<void> {
+    const current = this.state.objects().find((obj) => obj.id === id);
+    if (!current) {
+      return;
+    }
+    await this.state.deleteObject(id);
+  }
 }

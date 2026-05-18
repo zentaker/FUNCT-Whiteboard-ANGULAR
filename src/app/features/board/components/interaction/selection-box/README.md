@@ -1,23 +1,27 @@
-# selection-box
+# Selection Box
 
-**Etapa planificada:** Etapa 5 — Selection.
+## Estado: implementada - Etapa 5
 
-## Qué será
+Marcador visual del objeto seleccionado. Se renderiza como un outline azul
+con esquinas suavemente redondeadas, posicionado 4px fuera del objeto en cada lado.
 
-El recuadro visual que aparece alrededor del objeto seleccionado (borde
-azul punteado, esquinas marcadas). También capturará el rectángulo de
-selección múltiple al arrastrar sobre el canvas vacío.
+## Uso
 
-## Por qué aún no existe
+El `BoardObjectComponent` lo renderiza condicionalmente:
 
-Antes de mostrar una selección necesitamos:
+```html
+@if (isSelected()) {
+  <app-selection-box />
+}
+```
 
-1. Concepto de "objeto seleccionado" en el estado global
-   (`BoardStateService` debe ganar `selectedObjectId` como signal).
-2. Captura de eventos en el canvas que actualice ese signal al hacer click.
-3. Una decisión sobre selección múltiple (Set de ids vs único id).
+## Por que no recibe inputs
 
-Crear el componente sin esas piezas previas sería poner el efecto antes
-que la causa. Aparecerá en la etapa correspondiente del roadmap.
+Es un marcador puramente visual. No necesita saber a que objeto rodea ni que
+propiedades tiene. Su unica responsabilidad es indicar visualmente que hay seleccion.
 
-Ver [docs/07-stage-roadmap.md](../../../../../../../docs/07-stage-roadmap.md).
+## Por que pointer-events: none
+
+Si el outline capturara clicks, no podriamos arrastrar el objeto seleccionado:
+el click iria al selection-box, no al objeto. `pointer-events: none` hace que el
+outline sea transparente al mouse, dejando que los eventos lleguen al objeto.

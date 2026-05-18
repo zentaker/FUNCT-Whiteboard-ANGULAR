@@ -1,0 +1,17 @@
+/*
+  SelectionBox: outline azul alrededor del objeto seleccionado.
+  inset: -4px hace que el borde aparezca 4px fuera del objeto en los 4 lados.
+  pointer-events: none asegura que clicks sobre el outline pasen al objeto debajo.
+*/
+:host {
+  display: contents;
+}
+
+.selection-box {
+  position: absolute;
+  inset: -4px;
+  border: 2px solid #0d6efd;
+  border-radius: 4px;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(13, 110, 253, 0.2);
+}
