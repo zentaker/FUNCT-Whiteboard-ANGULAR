@@ -1,0 +1,59 @@
+/*
+  ResizeHandles
+  ---
+  Contenedor invisible al mouse con 4 handles individuales que si capturan
+  eventos. Asi el objeto sigue siendo clickeable y arrastrable en toda su
+  superficie excepto en los 12x12 px de cada esquina.
+
+  Los handles usan valores negativos para aparecer fuera del borde del objeto.
+  El centro de cada circulo queda exactamente sobre la esquina.
+*/
+:host {
+  display: contents;
+}
+
+.resize-handles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.resize-handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  border: 2px solid #0d6efd;
+  border-radius: 50%;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+/*
+  Cursor distinto por diagonal:
+   - nwse-resize para top-left y bottom-right.
+   - nesw-resize para top-right y bottom-left.
+*/
+.resize-handle--top-left {
+  top: -6px;
+  left: -6px;
+  cursor: nwse-resize;
+}
+
+.resize-handle--top-right {
+  top: -6px;
+  right: -6px;
+  cursor: nesw-resize;
+}
+
+.resize-handle--bottom-left {
+  bottom: -6px;
+  left: -6px;
+  cursor: nesw-resize;
+}
+
+.resize-handle--bottom-right {
+  right: -6px;
+  bottom: -6px;
+  cursor: nwse-resize;
+}

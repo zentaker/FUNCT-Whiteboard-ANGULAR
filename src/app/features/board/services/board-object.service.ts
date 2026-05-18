@@ -38,6 +38,23 @@ export class BoardObjectService {
     await this.state.updateObject({ ...current, content });
   }
 
+  // Cambia dimensiones y, cuando el resize viene desde una esquina izquierda
+  // o superior, tambien posicion. La matematica vive en ResizeHandlesComponent;
+  // este servicio solo construye el objeto resultante y delega al estado.
+  async resizeObject(
+    id: string,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): Promise<void> {
+    const current = this.state.objects().find((obj) => obj.id === id);
+    if (!current) {
+      return;
+    }
+    await this.state.updateObject({ ...current, x, y, width, height });
+  }
+
   async deleteObject(id: string): Promise<void> {
     const current = this.state.objects().find((obj) => obj.id === id);
     if (!current) {

@@ -1,0 +1,27 @@
+<!--
+  ResizeHandles
+  4 circulos en las esquinas del objeto seleccionado. El contenedor llena el
+  area del objeto pero es transparente al mouse; solo los handles capturan
+  clicks.
+-->
+<div class="resize-handles">
+  <div
+    class="resize-handle resize-handle--top-left"
+    (mousedown)="onHandleMouseDown('top-left', $event)"
+  ></div>
+
+  <div
+    class="resize-handle resize-handle--top-right"
+    (mousedown)="onHandleMouseDown('top-right', $event)"
+  ></div>
+
+  <div
+    class="resize-handle resize-handle--bottom-left"
+    (mousedown)="onHandleMouseDown('bottom-left', $event)"
+  ></div>
+
+  <div
+    class="resize-handle resize-handle--bottom-right"
+    (mousedown)="onHandleMouseDown('bottom-right', $event)"
+  ></div>
+</div>

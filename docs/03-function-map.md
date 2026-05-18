@@ -1,74 +1,75 @@
 # 03 — Function Map
 
-Cada método público de los servicios y repositorios, con su rol y su
-"nota pedagógica" (qué aprende el lector de este método).
+Cada metodo publico de los servicios y repositorios, con su rol y su
+"nota pedagogica" (que aprende el lector de este metodo).
 
 ## `BoardRepository` (abstract) y `LocalBoardRepository`
 
 Archivo: `src/app/features/board/repositories/board.repository.ts`
 Archivo: `src/app/features/board/repositories/local-board.repository.ts`
 
-| Método                          | Propósito                                             | Quién la usa        | Nota pedagógica                                                                                  |
-| ------------------------------- | ----------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------ |
-| `getBoard(id)`                  | Trae el tablero completo. `null` si no existe.        | `BoardStateService` | Ilustra cómo una interfaz abstracta se sustituye por una implementación concreta.                 |
-| `saveBoard(board)`              | Reemplaza el tablero entero. Útil para guardado manual.| (etapa de Export)   | Sirve como destino del futuro botón "Guardar". Hoy no se invoca.                                 |
-| `updateObject(boardId, object)` | Actualiza un objeto dentro del tablero.               | `BoardStateService` | La operación más frecuente del usuario tiene su propio método en el repo.                        |
-| `deleteObject(boardId, id)`     | Elimina un objeto dentro del tablero.                 | `BoardStateService` | Se elimina del documento; el DOM desaparece como consecuencia del signal, no por manipulación.    |
+| Metodo                          | Proposito                                             | Quien la usa        | Nota pedagogica                                                                                |
+| ------------------------------- | ----------------------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------- |
+| `getBoard(id)`                  | Trae el tablero completo. `null` si no existe.        | `BoardStateService` | Ilustra como una interfaz abstracta se sustituye por una implementacion concreta.              |
+| `saveBoard(board)`              | Reemplaza el tablero entero. Util para guardado manual.| (etapa de Export)   | Sirve como destino del futuro boton "Guardar". Hoy no se invoca.                               |
+| `updateObject(boardId, object)` | Actualiza un objeto dentro del tablero.               | `BoardStateService` | La operacion mas frecuente del usuario tiene su propio metodo en el repo.                      |
+| `deleteObject(boardId, id)`     | Elimina un objeto dentro del tablero.                 | `BoardStateService` | Se elimina del documento; el DOM desaparece como consecuencia del signal, no por manipulacion. |
 
 ## `BoardStateService`
 
 Archivo: `src/app/features/board/services/board-state.service.ts`
 
-| Método              | Propósito                                             | Quién la usa                   | Nota pedagógica                                                               |
-| ------------------- | ----------------------------------------------------- | ------------------------------ | ----------------------------------------------------------------------------- |
-| `loadBoard(id)`     | Lee del repo y actualiza el signal `activeBoard`.     | `BoardShellComponent.ngOnInit` | Carga inicial explícita en el componente, no magia automática en el servicio. |
-| `updateObject(obj)` | Único punto de propagación de cambios a persistencia. | `BoardObjectService`           | Cuando llegue persistencia real, aquí van loading/optimistic/error handling.  |
-| `deleteObject(id)`  | Elimina un objeto y refresca el signal `activeBoard`. | `BoardObjectService`           | Mismo flujo que drag: repositorio primero, signal después, DOM al final.      |
+| Metodo              | Proposito                                             | Quien la usa                   | Nota pedagogica                                                            |
+| ------------------- | ----------------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------- |
+| `loadBoard(id)`     | Lee del repo y actualiza el signal `activeBoard`.     | `BoardShellComponent.ngOnInit` | Carga inicial explicita en el componente, no magia automatica en el servicio. |
+| `updateObject(obj)` | Unico punto de propagacion de cambios a persistencia. | `BoardObjectService`           | Cuando llegue persistencia real, aqui van loading/optimistic/error handling. |
+| `deleteObject(id)`  | Elimina un objeto y refresca el signal `activeBoard`. | `BoardObjectService`           | Mismo flujo que drag: repositorio primero, signal despues, DOM al final.   |
 
 Signals expuestos:
 
-| Signal        | Tipo                             | Cómo se usa                                           |
-| ------------- | -------------------------------- | ----------------------------------------------------- |
-| `activeBoard` | `Signal<BoardDocument \| null>`  | `BoardTopbarComponent` lo lee para mostrar el título. |
-| `objects`     | `Signal<BoardObject[]>` computed | `BoardCanvasComponent` lo itera con `@for`.           |
+| Signal        | Tipo                            | Como se usa                                           |
+| ------------- | ------------------------------- | ----------------------------------------------------- |
+| `activeBoard` | `Signal<BoardDocument \| null>` | `BoardTopbarComponent` lo lee para mostrar el titulo. |
+| `objects`     | `Signal<BoardObject[]>` computed| `BoardCanvasComponent` lo itera con `@for`.           |
 
 ## `BoardSelectionService`
 
 Archivo: `src/app/features/board/services/board-selection.service.ts`
 
-| Método       | Propósito                             | Quién la usa                                 | Nota pedagógica                                                                   |
-| ------------ | ------------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------- |
-| `select(id)` | Guarda el id del objeto seleccionado. | `BoardCanvasComponent`                       | Seleccionar es estado de UI; no modifica el documento persistible.                |
-| `deselect()` | Limpia la selección actual.           | `BoardCanvasComponent`, `BoardShellComponent`| Click en canvas vacío y delete comparten el mismo punto de limpieza.              |
+| Metodo       | Proposito                             | Quien la usa                                  | Nota pedagogica                                                    |
+| ------------ | ------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------ |
+| `select(id)` | Guarda el id del objeto seleccionado. | `BoardCanvasComponent`                        | Seleccionar es estado de UI; no modifica el documento persistible. |
+| `deselect()` | Limpia la seleccion actual.           | `BoardCanvasComponent`, `BoardShellComponent` | Click en canvas vacio y delete comparten el mismo punto de limpieza. |
 
 Signals expuestos:
 
-| Signal             | Tipo                              | Cómo se usa                                                                  |
-| ------------------ | --------------------------------- | ---------------------------------------------------------------------------- |
-| `selectedObjectId` | `Signal<string \| null>`          | `BoardObjectComponent` compara contra su propio `object.id`.                 |
-| `selectedObject`   | `Signal<BoardObject \| null>`     | `BoardPropertiesPanelComponent` muestra propiedades sin hacer lookup manual. |
+| Signal             | Tipo                             | Como se usa                                                                  |
+| ------------------ | -------------------------------- | ---------------------------------------------------------------------------- |
+| `selectedObjectId` | `Signal<string \| null>`         | `BoardObjectComponent` compara contra su propio `object.id`.                 |
+| `selectedObject`   | `Signal<BoardObject \| null>`    | `BoardPropertiesPanelComponent` muestra propiedades sin hacer lookup manual. |
 
 ## `BoardToolService`
 
 Archivo: `src/app/features/board/services/board-tool.service.ts`
 
-| Método                  | Propósito                                      | Quién la usa            | Nota pedagógica                                                        |
-| ----------------------- | ---------------------------------------------- | ----------------------- | ---------------------------------------------------------------------- |
-| `setActiveTool(toolId)` | Cambia la herramienta activa con validación.   | `BoardToolbarComponent` | Validación dentro del servicio evita confiar en la UI para integridad. |
+| Metodo                  | Proposito                                    | Quien la usa            | Nota pedagogica                                                        |
+| ----------------------- | -------------------------------------------- | ----------------------- | ---------------------------------------------------------------------- |
+| `setActiveTool(toolId)` | Cambia la herramienta activa con validacion. | `BoardToolbarComponent` | Validacion dentro del servicio evita confiar en la UI para integridad. |
 
 Signals expuestos:
 
-| Signal       | Tipo                   | Cómo se usa                                                |
+| Signal       | Tipo                   | Como se usa                                                |
 | ------------ | ---------------------- | ---------------------------------------------------------- |
 | `tools`      | `readonly BoardTool[]` | `BoardToolbarComponent` itera para pintar los botones.     |
-| `activeTool` | `Signal<string>`       | `BoardToolbarComponent` usa para resaltar el botón activo. |
+| `activeTool` | `Signal<string>`       | `BoardToolbarComponent` usa para resaltar el boton activo. |
 
 ## `BoardObjectService`
 
 Archivo: `src/app/features/board/services/board-object.service.ts`
 
-| Método                 | Propósito                                | Quién la usa             | Nota pedagógica                                                          |
-| ---------------------- | ---------------------------------------- | ------------------------ | ------------------------------------------------------------------------ |
-| `moveObject(id, x, y)` | Cambia la posición de un objeto.         | `BoardCanvasComponent`   | Capa fina sobre `BoardStateService.updateObject`. Permite añadir reglas. |
-| `updateContent(id, c)` | Cambia el contenido textual de un objeto.| (etapa de inline-edit)   | Lugar natural para validación: longitud máxima, sanitización, etc.       |
-| `deleteObject(id)`     | Elimina un objeto del board activo.      | `BoardShellComponent`    | Primera mutación disparada por teclado global en vez de mouse.           |
+| Metodo                                  | Proposito                                             | Quien la usa             | Nota pedagogica                                                                                 |
+| --------------------------------------- | ----------------------------------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------- |
+| `moveObject(id, x, y)`                  | Cambia la posicion de un objeto.                      | `BoardCanvasComponent`   | Capa fina sobre `BoardStateService.updateObject`. Permite anadir reglas.                        |
+| `updateContent(id, c)`                  | Cambia el contenido textual de un objeto.             | (etapa de inline-edit)   | Lugar natural para validacion: longitud maxima, sanitizacion, etc.                              |
+| `resizeObject(id, x, y, width, height)` | Actualiza posicion y dimensiones simultaneamente.     | `ResizeHandlesComponent` | La posicion puede cambiar si el resize viene desde una esquina izquierda o superior.             |
+| `deleteObject(id)`                      | Elimina un objeto del board activo.                   | `BoardShellComponent`    | Primera mutacion disparada por teclado global en vez de mouse.                                  |

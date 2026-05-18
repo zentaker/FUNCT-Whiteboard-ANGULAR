@@ -27,6 +27,7 @@ import { TextObjectComponent } from '../text-object/text-object';
 import { ComicBubbleObjectComponent } from '../comic-bubble-object/comic-bubble-object';
 import { LineObjectComponent } from '../line-object/line-object';
 import { SelectionBoxComponent } from '../../interaction/selection-box/selection-box';
+import { ResizeHandlesComponent } from '../../interaction/resize-handles/resize-handles';
 
 @Component({
   selector: 'app-board-object',
@@ -38,6 +39,7 @@ import { SelectionBoxComponent } from '../../interaction/selection-box/selection
     ComicBubbleObjectComponent,
     LineObjectComponent,
     SelectionBoxComponent,
+    ResizeHandlesComponent,
   ],
   templateUrl: './board-object.html',
   styleUrl: './board-object.css',
