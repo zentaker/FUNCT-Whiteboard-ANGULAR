@@ -3,7 +3,18 @@
    - color y cursor de la línea. Bootstrap no tiene una utilidad "línea
      horizontal posicionable", así que el estilo va aquí.
 */
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .line-object {
   background-color: #444;
-  cursor: pointer;
+  cursor: grab;
+  user-select: none;
+}
+
+.line-object:active {
+  cursor: grabbing;
 }

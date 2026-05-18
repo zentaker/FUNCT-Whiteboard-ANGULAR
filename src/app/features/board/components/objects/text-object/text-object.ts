@@ -1,7 +1,7 @@
 // TextObjectComponent
 // ---
 // Renderiza un bloque de texto libre, sin contenedor visual: solo letras
-// posicionadas en el canvas.
+// dentro del contenedor que BoardObjectComponent posiciona en el canvas.
 //
 // Por qué SIN Bootstrap card aquí: a diferencia de un sticky note o un
 // rectángulo, el texto libre no tiene "contenedor" conceptual. Forzarlo

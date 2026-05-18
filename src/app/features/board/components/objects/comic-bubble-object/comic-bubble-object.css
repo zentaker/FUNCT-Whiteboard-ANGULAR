@@ -5,6 +5,12 @@
      usando el truco clásico de bordes para formar un triángulo
    - cursor + protección contra selección al arrastrar
 */
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .comic-bubble-object {
   cursor: grab;
   user-select: none;

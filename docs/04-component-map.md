@@ -44,7 +44,18 @@ Solo conoce `BoardObject` genérico y deja que el dispatcher resuelva.
 **Nota pedagógica:** todos los visuales reciben el modelo por `@Input` y
 NO llaman al servicio. Eso los hace testeables aislados.
 
-## Interaction (placeholders)
+## Interaction
+
+| Directiva                    | Archivo                                                                                       | Capa        | Propósito                                                        | Usado por               |
+| ---------------------------- | --------------------------------------------------------------------------------------------- | ----------- | ---------------------------------------------------------------- | ----------------------- |
+| `DraggableObjectDirective`   | `features/board/components/interaction/draggable-object/draggable-object.directive.ts`         | Interaction | Agrega drag-and-drop manual a cualquier elemento con eventos DOM. | `BoardCanvasComponent`  |
+
+**Nota pedagógica:** drag se implementa con eventos nativos, no con Angular
+CDK. La directiva emite cambios de posición; el canvas los conecta con
+`BoardObjectService.moveObject()`, que actualiza el signal y dispara el
+re-render. El DOM no se manipula directamente.
+
+## Interaction (placeholders restantes)
 
 | Carpeta                                                                       | Etapa planificada | Por qué aún no existe                                                |
 | ----------------------------------------------------------------------------- | ----------------- | -------------------------------------------------------------------- |

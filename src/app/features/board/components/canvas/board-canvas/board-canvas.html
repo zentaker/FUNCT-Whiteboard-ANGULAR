@@ -6,6 +6,12 @@
 -->
 <div class="board-canvas position-relative w-100 h-100">
   @for (obj of objects(); track obj.id) {
-    <app-board-object [object]="obj" />
+    <app-board-object
+      [object]="obj"
+      appDraggableObject
+      [initialX]="obj.x"
+      [initialY]="obj.y"
+      (dragged)="onObjectDragged(obj.id, $event)"
+    />
   }
 </div>

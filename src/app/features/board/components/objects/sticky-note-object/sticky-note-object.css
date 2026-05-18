@@ -4,6 +4,12 @@
    - prevenir selección de texto accidental al arrastrar
    - color de borde personalizado (Bootstrap border-warning es muy fuerte)
 */
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .sticky-note-object {
   cursor: grab;
   user-select: none;

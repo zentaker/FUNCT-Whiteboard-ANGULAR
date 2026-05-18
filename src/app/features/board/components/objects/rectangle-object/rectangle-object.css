@@ -4,6 +4,12 @@
    - prevenir selección de texto durante el arrastre
    - color de borde más suave que el default de Bootstrap
 */
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .rectangle-object {
   cursor: grab;
   user-select: none;

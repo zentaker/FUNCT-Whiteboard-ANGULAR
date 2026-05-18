@@ -4,6 +4,12 @@
    - outline punteado en hover (anticipa la edición inline futura)
    - fondo transparente porque queremos que se vea "sobre" el canvas
 */
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .text-object {
   cursor: text;
   user-select: none;

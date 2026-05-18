@@ -8,8 +8,8 @@
 //    en un preview, o en un export sin el resto de la app.
 //  - Usa Bootstrap card como esqueleto visual. El CSS propio solo añade
 //    el cursor 'grab' (anticipando drag-and-drop) y el color de borde.
-//  - La posición absoluta (left/top) viene del modelo. El canvas
-//    proporciona el contenedor con position: relative.
+//  - Desde la Etapa 4, la posición absoluta vive en BoardObjectComponent.
+//    Este componente solo dibuja el contenido dentro del espacio recibido.
 
 import { Component, Input } from '@angular/core';
 import { BoardObject } from '../../../models/board-object.model';

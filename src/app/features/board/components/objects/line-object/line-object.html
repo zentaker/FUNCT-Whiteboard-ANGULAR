@@ -1,13 +1,9 @@
 <!--
   LineObject
-  Estructura: un div delgado, posicionado en absoluto. La altura del modelo
-  define el "grosor" de la línea (típicamente 2px); el ancho define la
-  longitud horizontal. En la etapa 8 esto se reemplaza por SVG.
+  Estructura: un div delgado que rellena el contenedor posicionado por
+  BoardObjectComponent. La altura del modelo define el "grosor" de la línea
+  (típicamente 2px); el ancho define la longitud horizontal.
 -->
 <div
-  class="position-absolute line-object"
-  [style.left.px]="line.x"
-  [style.top.px]="line.y"
-  [style.width.px]="line.width"
-  [style.height.px]="line.height"
+  class="w-100 h-100 line-object"
 ></div>

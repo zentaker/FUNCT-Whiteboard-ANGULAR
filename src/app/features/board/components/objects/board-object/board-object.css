@@ -5,3 +5,7 @@
   Mantenemos este archivo (vacío) por consistencia: todos los componentes
   del proyecto tienen el triple .ts/.html/.css.
 */
+
+:host {
+  display: block;
+}

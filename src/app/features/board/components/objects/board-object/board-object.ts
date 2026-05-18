@@ -38,6 +38,15 @@ import { LineObjectComponent } from '../line-object/line-object';
   ],
   templateUrl: './board-object.html',
   styleUrl: './board-object.css',
+  // El dispatcher es responsable de la posicion. Los visuales solo dibujan
+  // dentro del espacio que este host les entrega.
+  host: {
+    class: 'position-absolute',
+    '[style.left.px]': 'object.x',
+    '[style.top.px]': 'object.y',
+    '[style.width.px]': 'object.width',
+    '[style.height.px]': 'object.height',
+  },
 })
 export class BoardObjectComponent {
   @Input({ required: true }) object!: BoardObject;

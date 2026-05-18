@@ -22,17 +22,28 @@
 
 import { Component, inject } from '@angular/core';
 import { BoardStateService } from '../../../services/board-state.service';
+import { BoardObjectService } from '../../../services/board-object.service';
+import { Point } from '../../../models/point.model';
+import { DraggableObjectDirective } from '../../interaction/draggable-object/draggable-object.directive';
 import { BoardObjectComponent } from '../../objects/board-object/board-object';
 
 @Component({
   selector: 'app-board-canvas',
   standalone: true,
-  imports: [BoardObjectComponent],
+  imports: [BoardObjectComponent, DraggableObjectDirective],
   templateUrl: './board-canvas.html',
   styleUrl: './board-canvas.css',
 })
 export class BoardCanvasComponent {
   private readonly state = inject(BoardStateService);
+  private readonly objectService = inject(BoardObjectService);
 
   readonly objects = this.state.objects;
+
+  // El canvas traduce el evento de la directiva en una operacion del dominio.
+  // No mueve pixeles manualmente: pide al servicio que cambie el modelo y
+  // deja que el signal actualice el template.
+  async onObjectDragged(objectId: string, position: Point): Promise<void> {
+    await this.objectService.moveObject(objectId, position.x, position.y);
+  }
 }

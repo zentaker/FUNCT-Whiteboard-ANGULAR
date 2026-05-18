@@ -1,14 +1,11 @@
 <!--
   StickyNoteObject
   Estructura: Bootstrap card con header (etiqueta), body (contenido), footer (coords).
-  Posicionamiento absoluto controlado por el modelo (x, y, width, height).
+  Desde la Etapa 4, el posicionamiento lo controla BoardObjectComponent.
+  Este visual rellena el espacio que recibe del dispatcher.
 -->
 <div
-  class="card position-absolute shadow-sm sticky-note-object"
-  [style.left.px]="stickyNote.x"
-  [style.top.px]="stickyNote.y"
-  [style.width.px]="stickyNote.width"
-  [style.height.px]="stickyNote.height"
+  class="card w-100 h-100 shadow-sm sticky-note-object"
   [style.backgroundColor]="stickyNote.backgroundColor || '#FFEB3B'"
 >
   <div class="card-header py-1 px-2 d-flex justify-content-between align-items-center bg-transparent border-bottom border-warning">
