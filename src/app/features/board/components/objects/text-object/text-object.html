@@ -1,0 +1,14 @@
+<!--
+  TextObject
+  Estructura: un div absoluto con el texto, sin card ni borde permanente.
+  El outline solo aparece en hover para indicar editabilidad futura.
+-->
+<div
+  class="position-absolute text-object"
+  [style.left.px]="textObject.x"
+  [style.top.px]="textObject.y"
+  [style.width.px]="textObject.width"
+  [style.height.px]="textObject.height"
+>
+  <p class="mb-0 fw-semibold">{{ textObject.content }}</p>
+</div>

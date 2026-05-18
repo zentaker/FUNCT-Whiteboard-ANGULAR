@@ -1,0 +1,18 @@
+<!--
+  ComicBubbleObject
+  Estructura: Bootstrap card con border-radius alto (CSS propio) y un
+  pseudo-elemento que dibuja el rabito inferior izquierdo. Posicionamiento
+  absoluto controlado por el modelo.
+-->
+<div
+  class="card position-absolute shadow-sm comic-bubble-object"
+  [style.left.px]="comicBubble.x"
+  [style.top.px]="comicBubble.y"
+  [style.width.px]="comicBubble.width"
+  [style.height.px]="comicBubble.height"
+  [style.backgroundColor]="comicBubble.backgroundColor || '#F3E5F5'"
+>
+  <div class="card-body p-3 d-flex align-items-center justify-content-center">
+    <p class="card-text text-center mb-0">{{ comicBubble.content }}</p>
+  </div>
+</div>

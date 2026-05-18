@@ -1,0 +1,7 @@
+/*
+  El dispatcher es un componente sin presencia visual propia: no pinta nada,
+  solo delega. Sus hijos ya saben cómo posicionarse en absoluto.
+
+  Mantenemos este archivo (vacío) por consistencia: todos los componentes
+  del proyecto tienen el triple .ts/.html/.css.
+*/

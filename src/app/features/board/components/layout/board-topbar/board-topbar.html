@@ -1,0 +1,18 @@
+<!--
+  BoardTopbar
+  Estructura: navbar de Bootstrap con título a la izquierda y dos botones de
+  acción a la derecha. El CSS propio solo controla la altura mínima fija que
+  Bootstrap no garantiza.
+-->
+<nav class="navbar bg-light border-bottom px-3 board-topbar">
+  <span class="navbar-brand mb-0 h5 fw-semibold">{{ title() }}</span>
+
+  <div class="d-flex gap-2">
+    <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
+      Guardar
+    </button>
+    <button type="button" class="btn btn-sm btn-primary" disabled>
+      Exportar JSON
+    </button>
+  </div>
+</nav>

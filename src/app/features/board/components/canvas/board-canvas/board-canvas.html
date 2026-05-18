@@ -1,0 +1,11 @@
+<!--
+  BoardCanvas
+  Un único div que actúa como contenedor relativo. Itera los objetos del
+  estado y por cada uno pinta el dispatcher, que decide qué componente
+  visual usar. La grilla de puntos del fondo está en el CSS asociado.
+-->
+<div class="board-canvas position-relative w-100 h-100">
+  @for (obj of objects(); track obj.id) {
+    <app-board-object [object]="obj" />
+  }
+</div>

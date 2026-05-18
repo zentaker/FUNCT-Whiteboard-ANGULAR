@@ -1,0 +1,49 @@
+/*
+  Lo que Bootstrap no resuelve:
+   - border-radius redondeado mucho más fuerte que rounded-pill
+   - el "rabito" inferior izquierdo, dibujado con un pseudo-elemento
+     usando el truco clásico de bordes para formar un triángulo
+   - cursor + protección contra selección al arrastrar
+*/
+.comic-bubble-object {
+  cursor: grab;
+  user-select: none;
+  border-radius: 24px;
+  border-color: #d6b3e8 !important;
+  overflow: visible; /* permite que el rabito sobresalga del card */
+}
+
+.comic-bubble-object:active {
+  cursor: grabbing;
+}
+
+/*
+  Triángulo del rabito:
+   - 0×0 div con borders transparentes excepto el top, que toma el color
+     de fondo del bubble. Posicionado en la esquina inferior izquierda
+     para apuntar "hacia abajo y a la izquierda".
+*/
+.comic-bubble-object::before {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  left: 22px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 16px solid #d6b3e8;
+}
+
+.comic-bubble-object::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 11px solid transparent;
+  border-top: 12px solid inherit;
+  border-top-color: inherit;
+}

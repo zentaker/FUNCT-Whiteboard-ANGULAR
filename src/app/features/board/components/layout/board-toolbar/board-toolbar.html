@@ -1,0 +1,21 @@
+<!--
+  BoardToolbar
+  Estructura: columna vertical de botones. Cada botón usa btn-primary si es
+  la herramienta activa, btn-outline-secondary si no. El @for itera sobre la
+  lista del servicio para que añadir una herramienta sea un único cambio.
+-->
+<aside class="d-flex flex-column gap-2 p-2 border-end bg-white board-toolbar">
+  @for (tool of toolService.tools; track tool.id) {
+    <button
+      type="button"
+      class="btn"
+      [class.btn-primary]="toolService.activeTool() === tool.id"
+      [class.btn-outline-secondary]="toolService.activeTool() !== tool.id"
+      [attr.aria-label]="tool.label"
+      [title]="tool.label"
+      (click)="selectTool(tool.id)"
+    >
+      <span class="fs-5">{{ tool.iconText }}</span>
+    </button>
+  }
+</aside>

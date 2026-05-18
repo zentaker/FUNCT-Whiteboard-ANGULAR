@@ -1,0 +1,20 @@
+<!--
+  RectangleObject
+  Estructura: Bootstrap card sin header, body + footer pequeño.
+  Posicionamiento absoluto controlado por el modelo.
+-->
+<div
+  class="card position-absolute shadow-sm rectangle-object"
+  [style.left.px]="rectangle.x"
+  [style.top.px]="rectangle.y"
+  [style.width.px]="rectangle.width"
+  [style.height.px]="rectangle.height"
+  [style.backgroundColor]="rectangle.backgroundColor || '#E3F2FD'"
+>
+  <div class="card-body p-2 d-flex align-items-center justify-content-center">
+    <p class="card-text text-center mb-0">{{ rectangle.content }}</p>
+  </div>
+  <div class="card-footer py-1 px-2 bg-transparent border-0">
+    <small class="text-muted">x: {{ rectangle.x }}, y: {{ rectangle.y }}</small>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+/*
+  Solo lo que Bootstrap no resuelve:
+   - ancho fijo del panel para que el canvas tenga espacio predecible
+*/
+.board-properties-panel {
+  width: 280px;
+  overflow-y: auto;
+}

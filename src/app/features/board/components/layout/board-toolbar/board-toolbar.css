@@ -1,0 +1,18 @@
+/*
+  Solo lo que Bootstrap no resuelve:
+   - ancho fijo para que el toolbar no se redimensione al cambiar el contenido
+   - cuadrado en los botones (Bootstrap los hace ligeramente rectangulares
+     por padding asimétrico)
+*/
+.board-toolbar {
+  width: 64px;
+}
+
+.board-toolbar .btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,22 @@
+<!--
+  BoardObject (dispatcher)
+  Cinco ramas @if, una por cada BoardObjectType. Cada rama instancia el
+  componente visual correspondiente y le pasa el objeto con el nombre de
+  Input semántico de ese componente (stickyNote, rectangle, textObject,
+  comicBubble, line).
+-->
+@if (object.type === 'sticky-note') {
+  <app-sticky-note-object [stickyNote]="object" />
+}
+@if (object.type === 'rectangle') {
+  <app-rectangle-object [rectangle]="object" />
+}
+@if (object.type === 'text') {
+  <app-text-object [textObject]="object" />
+}
+@if (object.type === 'comic-bubble') {
+  <app-comic-bubble-object [comicBubble]="object" />
+}
+@if (object.type === 'line') {
+  <app-line-object [line]="object" />
+}

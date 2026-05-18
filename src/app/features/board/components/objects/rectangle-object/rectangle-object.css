@@ -1,0 +1,15 @@
+/*
+  Solo lo que Bootstrap no resuelve:
+   - cursor visual para anticipar el drag-and-drop
+   - prevenir selección de texto durante el arrastre
+   - color de borde más suave que el default de Bootstrap
+*/
+.rectangle-object {
+  cursor: grab;
+  user-select: none;
+  border-color: #b3d4f0 !important;
+}
+
+.rectangle-object:active {
+  cursor: grabbing;
+}

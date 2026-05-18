@@ -1,0 +1,24 @@
+<!--
+  StickyNoteObject
+  Estructura: Bootstrap card con header (etiqueta), body (contenido), footer (coords).
+  Posicionamiento absoluto controlado por el modelo (x, y, width, height).
+-->
+<div
+  class="card position-absolute shadow-sm sticky-note-object"
+  [style.left.px]="stickyNote.x"
+  [style.top.px]="stickyNote.y"
+  [style.width.px]="stickyNote.width"
+  [style.height.px]="stickyNote.height"
+  [style.backgroundColor]="stickyNote.backgroundColor || '#FFEB3B'"
+>
+  <div class="card-header py-1 px-2 d-flex justify-content-between align-items-center bg-transparent border-bottom border-warning">
+    <small class="fw-semibold">Nota</small>
+    <small class="text-muted">{{ stickyNote.id }}</small>
+  </div>
+  <div class="card-body p-2">
+    <p class="card-text small mb-0">{{ stickyNote.content }}</p>
+  </div>
+  <div class="card-footer py-1 px-2 bg-transparent border-0">
+    <small class="text-muted">x: {{ stickyNote.x }}, y: {{ stickyNote.y }}</small>
+  </div>
+</div>

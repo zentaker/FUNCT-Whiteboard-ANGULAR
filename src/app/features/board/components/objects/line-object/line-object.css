@@ -1,0 +1,9 @@
+/*
+  Lo que Bootstrap no resuelve:
+   - color y cursor de la línea. Bootstrap no tiene una utilidad "línea
+     horizontal posicionable", así que el estilo va aquí.
+*/
+.line-object {
+  background-color: #444;
+  cursor: pointer;
+}

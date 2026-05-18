@@ -1,0 +1,15 @@
+/*
+  Solo lo que Bootstrap no resuelve:
+   - cursor visual para anticipar la futura interacción de arrastre
+   - prevenir selección de texto accidental al arrastrar
+   - color de borde personalizado (Bootstrap border-warning es muy fuerte)
+*/
+.sticky-note-object {
+  cursor: grab;
+  user-select: none;
+  border-color: #f0c040 !important;
+}
+
+.sticky-note-object:active {
+  cursor: grabbing;
+}

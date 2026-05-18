@@ -1,0 +1,19 @@
+<!--
+  BoardShell
+  Layout principal en dos niveles:
+   - Columna externa: topbar arriba + fila debajo.
+   - Fila interna: toolbar | canvas (flex-grow) | panel de propiedades.
+
+  Todas las dimensiones flexibles son de Bootstrap (d-flex, flex-column,
+  flex-grow-1). El CSS propio solo asegura que el shell ocupe toda la altura
+  de la ventana.
+-->
+<div class="d-flex flex-column board-shell">
+  <app-board-topbar />
+
+  <div class="d-flex flex-grow-1 overflow-hidden">
+    <app-board-toolbar />
+    <app-board-canvas class="flex-grow-1 overflow-hidden" />
+    <app-board-properties-panel />
+  </div>
+</div>

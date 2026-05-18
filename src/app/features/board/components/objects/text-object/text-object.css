@@ -1,0 +1,17 @@
+/*
+  Solo lo que Bootstrap no resuelve:
+   - cursor de texto para indicar editabilidad
+   - outline punteado en hover (anticipa la edición inline futura)
+   - fondo transparente porque queremos que se vea "sobre" el canvas
+*/
+.text-object {
+  cursor: text;
+  user-select: none;
+  padding: 4px 6px;
+  background-color: transparent;
+}
+
+.text-object:hover {
+  outline: 1px dashed #888;
+  outline-offset: 2px;
+}

@@ -1,0 +1,14 @@
+/*
+  Lo que Bootstrap no resuelve:
+   - El fondo de "grilla de puntos" típico de los whiteboards. Se hace con
+     un radial-gradient repetido. Bootstrap no tiene una utilidad para esto.
+   - El scroll interno del canvas: queremos que el canvas sea desplazable
+     cuando los objetos excedan la viewport.
+*/
+.board-canvas {
+  background-color: #fafafa;
+  background-image: radial-gradient(circle, #d0d0d0 1px, transparent 1px);
+  background-size: 24px 24px;
+  overflow: auto;
+  min-height: 100%;
+}

@@ -1,0 +1,18 @@
+/*
+  Estilos globales del proyecto.
+
+  Mantenemos este archivo casi vacío a propósito: la mayor parte del estilo
+  viene de Bootstrap (cargado en angular.json), y lo específico de cada
+  componente vive en su propio .css. Solo los reset y los estilos que
+  realmente son globales (body, scrollbars genéricas, fuentes) deberían
+  vivir aquí.
+*/
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}

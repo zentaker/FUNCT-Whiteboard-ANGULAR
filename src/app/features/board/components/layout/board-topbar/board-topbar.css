@@ -1,0 +1,10 @@
+/*
+  Solo lo que Bootstrap no resuelve:
+   - altura fija para que el topbar no se "encoja" cuando el contenido es corto
+   - separación visual respecto al canvas (la border-bottom de Bootstrap basta,
+     pero queremos asegurar un poco de sombra sutil para jerarquía vertical)
+*/
+.board-topbar {
+  min-height: 56px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
