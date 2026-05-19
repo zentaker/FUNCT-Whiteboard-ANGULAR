@@ -13,7 +13,7 @@ esta etapa.
 
 | Componente                      | Archivo                                                                            | Capa   | Proposito                                             | Usado por             |
 | ------------------------------- | ---------------------------------------------------------------------------------- | ------ | ----------------------------------------------------- | --------------------- |
-| `BoardShellComponent`           | `features/board/components/layout/board-shell/board-shell.ts`                      | Layout | Compone la pantalla y escucha Delete/Backspace.       | `BoardPageComponent`  |
+| `BoardShellComponent`           | `features/board/components/layout/board-shell/board-shell.ts`                      | Layout | Compone la pantalla y escucha Delete/Backspace/Escape.| `BoardPageComponent`  |
 | `BoardTopbarComponent`          | `features/board/components/layout/board-topbar/board-topbar.ts`                    | Layout | Barra superior con titulo y acciones globales.        | `BoardShellComponent` |
 | `BoardToolbarComponent`         | `features/board/components/layout/board-toolbar/board-toolbar.ts`                  | Layout | Columna vertical con las herramientas.                | `BoardShellComponent` |
 | `BoardPropertiesPanelComponent` | `features/board/components/layout/board-properties-panel/board-properties-panel.ts` | Layout | Panel derecho con propiedades del objeto seleccionado.| `BoardShellComponent` |
@@ -26,7 +26,7 @@ de teclado.
 
 | Componente             | Archivo                                                         | Capa   | Proposito                                               | Usado por             |
 | ---------------------- | --------------------------------------------------------------- | ------ | ------------------------------------------------------- | --------------------- |
-| `BoardCanvasComponent` | `features/board/components/canvas/board-canvas/board-canvas.ts` | Canvas | Itera objetos, conecta drag, selecciona y deselecciona. | `BoardShellComponent` |
+| `BoardCanvasComponent` | `features/board/components/canvas/board-canvas/board-canvas.ts` | Canvas | Itera objetos, conecta drag, selecciona y crea objetos. | `BoardShellComponent` |
 
 **Nota pedagogica:** el canvas no conoce los tipos concretos de objetos. Si
 coordina eventos de interaccion porque es la superficie donde ocurren.

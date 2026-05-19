@@ -2,7 +2,7 @@
 
 El proyecto esta pensado para crecer en **10 etapas incrementales**. Cada
 etapa anade una capacidad sin reescribir las anteriores. **Hoy queda completada
-la Etapa 6**: resize de objetos.
+la Etapa 7**: creacion de objetos.
 
 | Etapa | Nombre              | Estado        | Que anade                                                                                       |
 | ----- | ------------------- | ------------- | ----------------------------------------------------------------------------------------------- |
@@ -12,7 +12,7 @@ la Etapa 6**: resize de objetos.
 | 4     | **Drag**            | ✅ Completada | `DraggableObjectDirective` con eventos DOM nativos, aplicada sobre cada `BoardObjectComponent`. |
 | 5     | **Selection**       | ✅ Completada | `BoardSelectionService`, outline azul, panel de propiedades y delete con teclado.               |
 | 6     | **Resize**          | ✅ Completada | `ResizeHandlesComponent`, 4 handles de esquina, minimo 40x40 y resize reactivo.                 |
-| 7     | **Create**          | 🔜            | Crear objetos nuevos desde el toolbar haciendo click en el canvas.                              |
+| 7     | **Create**          | ✅ Completada | Crear objetos desde el toolbar, defaults configurables, cursor crosshair y Escape a select.     |
 | 8     | **Connectors**      | 🔜            | Rediseno de `LineObject` con SVG. `ConnectorHandlesComponent` para anclar a otros objetos.      |
 | 9     | **Pan / Zoom**      | 🔜            | Desplazar y hacer zoom del canvas. Transformacion CSS o matriz de transformacion.               |
 | 10    | **Export / Import** | 🔜            | Serializacion a JSON. Habilita los botones "Guardar" y "Exportar JSON" del topbar.             |
@@ -58,6 +58,26 @@ mousedown en handle -> window mousemove
                     -> signal actualizado -> objeto y panel re-renderizados
 ```
 
+## Etapa 7 — Creacion de objetos ✅
+
+`OBJECT_DEFAULTS` vive en `data/object-defaults.ts`.
+`BoardObjectService.createObject()` usa defaults y genera IDs con
+`crypto.randomUUID()`.
+`addObject()` existe en repositorio y state service, paralelo a `deleteObject()`.
+`BoardCanvasComponent` traduce coordenadas viewport -> surface con
+`getBoundingClientRect()`.
+El cursor cambia a `crosshair` cuando hay herramienta de creacion activa.
+Escape vuelve a `select` y limpia la seleccion.
+
+```text
+toolbar tool activo -> mousedown en canvas vacio
+                    -> viewport coords convertidas a surface coords
+                    -> BoardObjectService.createObject()
+                    -> BoardStateService.addObject()
+                    -> LocalBoardRepository.addObject()
+                    -> nuevo objeto seleccionado
+```
+
 ## Principios del roadmap
 
 1. **Cada etapa deja la app funcional.** Despues de cada merge la pantalla
@@ -76,7 +96,7 @@ mousedown en handle -> window mousemove
 | 4 — Drag           | `interaction/draggable-object/draggable-object.directive.ts`                  | `BoardObjectService.moveObject`   |
 | 5 — Selection      | `selection-box/selection-box.{ts,html,css}`, `board-selection.service.ts`     | `BoardObjectService.deleteObject` |
 | 6 — Resize         | `resize-handles/resize-handles.{ts,html,css}`                                 | `BoardObjectService.resizeObject` |
-| 7 — Create         | `BoardCanvasComponent` gana click handler dependiente de `activeTool`         | `BoardObjectService.createObject` |
+| 7 — Create         | `data/object-defaults.ts`, canvas con `#surface` y cursor reactivo            | `BoardObjectService.createObject` |
 | 8 — Connectors     | `LineObject` reescrito en SVG, `connector-handles/`, modelo extendido         | `BoardObjectService.connectObjects` |
 | 9 — Pan / Zoom     | `viewport.service.ts` con signals `pan` y `zoom`, transformacion en el canvas | nuevo `ViewportService`           |
 | 10 — Export/Import | Handlers en `BoardTopbarComponent`, `board-import-export.service.ts`          | nuevo servicio de I/O             |

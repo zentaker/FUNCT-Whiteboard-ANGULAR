@@ -29,6 +29,7 @@ import { BoardObject } from '../models/board-object.model';
 export abstract class BoardRepository {
   abstract getBoard(id: string): Promise<BoardDocument | null>;
   abstract saveBoard(board: BoardDocument): Promise<void>;
+  abstract addObject(boardId: string, object: BoardObject): Promise<void>;
   abstract updateObject(boardId: string, object: BoardObject): Promise<void>;
   abstract deleteObject(boardId: string, objectId: string): Promise<void>;
 }

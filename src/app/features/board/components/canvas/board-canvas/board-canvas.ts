@@ -1,29 +1,30 @@
 // BoardCanvasComponent
 // ---
-// La superficie del whiteboard. Es la zona donde viven todos los objetos
-// posicionados absolutamente y donde, en etapas futuras, el usuario
-// arrastrará, creará y conectará objetos.
+// La superficie del whiteboard. Lee los objetos del estado, los pinta mediante
+// el dispatcher y traduce gestos del usuario en operaciones del dominio.
 //
-// Responsabilidades intencionalmente LIMITADAS en esta etapa:
+// Desde la Etapa 7, el canvas tambien interpreta el tool activo:
+//   - select: click en canvas vacio deselecciona.
+//   - herramientas de creacion: click en canvas vacio crea un objeto centrado
+//     en ese punto y lo selecciona inmediatamente.
 //
-//   1. Lee `objects` de BoardStateService y los itera.
-//   2. Por cada objeto, instancia el dispatcher (BoardObjectComponent).
-//   3. Provee el contenedor `position: relative` que da sentido al
-//      `position-absolute` de los objetos hijos.
-//
-// Lo que el canvas NO conoce:
-//   - Los tipos concretos de objetos (eso lo resuelve el dispatcher).
-//   - Cómo se ve cada objeto (eso lo resuelve cada componente visual).
-//   - Si hay selección, drag, resize (eso llegará vía componentes hermanos
-//     en `interaction/` en etapas futuras).
-//
-// Mantener este componente pequeño es lo que hace que la arquitectura sea
-// extensible: añadir tipos de objetos no requiere tocar el canvas.
+// La conversion viewport -> surface vive aqui porque este componente recibe el
+// evento del mouse y conoce el elemento DOM que actua como superficie del board.
 
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  computed,
+  inject,
+} from '@angular/core';
 import { BoardStateService } from '../../../services/board-state.service';
 import { BoardObjectService } from '../../../services/board-object.service';
 import { BoardSelectionService } from '../../../services/board-selection.service';
+import { BoardToolService } from '../../../services/board-tool.service';
+import {
+  BoardObjectType,
+} from '../../../models/board-object.model';
 import { Point } from '../../../models/point.model';
 import { DraggableObjectDirective } from '../../interaction/draggable-object/draggable-object.directive';
 import { BoardObjectComponent } from '../../objects/board-object/board-object';
@@ -36,11 +37,23 @@ import { BoardObjectComponent } from '../../objects/board-object/board-object';
   styleUrl: './board-canvas.css',
 })
 export class BoardCanvasComponent {
+  // Referencia al sistema de coordenadas real del board. event.clientX/Y vienen
+  // en coordenadas de viewport; restar el rect de surface los convierte a
+  // coordenadas internas del canvas.
+  @ViewChild('surface', { static: true })
+  private surfaceRef!: ElementRef<HTMLElement>;
+
   private readonly state = inject(BoardStateService);
   private readonly objectService = inject(BoardObjectService);
   private readonly selectionService = inject(BoardSelectionService);
+  private readonly toolService = inject(BoardToolService);
 
   readonly objects = this.state.objects;
+
+  // Cursor derivado del tool activo: crosshair comunica "el proximo click crea".
+  readonly canvasCursor = computed(() =>
+    this.toolService.activeTool() === 'select' ? 'default' : 'crosshair',
+  );
 
   // El canvas traduce el evento de la directiva en una operacion del dominio.
   // No mueve pixeles manualmente: pide al servicio que cambie el modelo y
@@ -50,15 +63,51 @@ export class BoardCanvasComponent {
   }
 
   // Selecciona el objeto antes de que empiece el drag. stopPropagation evita
-  // que el mismo mousedown burbujee al canvas y borre la seleccion.
+  // que el mismo mousedown burbujee al canvas y cree/deseleccione.
   onObjectMouseDown(objectId: string, event: MouseEvent): void {
     event.stopPropagation();
     this.selectionService.select(objectId);
   }
 
-  // Mousedown en canvas vacio deselecciona. Si el evento viene de un objeto,
-  // no llega aqui porque onObjectMouseDown detiene el bubbling.
-  onCanvasMouseDown(): void {
-    this.selectionService.deselect();
+  // El click sobre canvas vacio cambia de significado segun el tool activo.
+  // Mismo gesto, modo distinto: una pequena introduccion al flujo de apps de
+  // diseno como FigJam o Miro.
+  async onCanvasMouseDown(event: MouseEvent): Promise<void> {
+    if (event.button !== 0) {
+      return;
+    }
+
+    const tool = this.toolService.activeTool();
+
+    if (tool === 'select') {
+      this.selectionService.deselect();
+      return;
+    }
+
+    if (!this.isCreationTool(tool)) {
+      return;
+    }
+
+    const point = this.toSurfaceCoordinates(event);
+    const newId = await this.objectService.createObject(tool, point.x, point.y);
+    this.selectionService.select(newId);
+  }
+
+  private toSurfaceCoordinates(event: MouseEvent): Point {
+    const rect = this.surfaceRef.nativeElement.getBoundingClientRect();
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    };
+  }
+
+  private isCreationTool(tool: string): tool is BoardObjectType {
+    return (
+      tool === 'sticky-note' ||
+      tool === 'rectangle' ||
+      tool === 'text' ||
+      tool === 'comic-bubble' ||
+      tool === 'line'
+    );
   }
 }

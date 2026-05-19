@@ -17,6 +17,8 @@
 
 import { Injectable, inject } from '@angular/core';
 import { BoardStateService } from './board-state.service';
+import { OBJECT_DEFAULTS } from '../../../data/object-defaults';
+import { BoardObjectType } from '../models/board-object.model';
 
 @Injectable({ providedIn: 'root' })
 export class BoardObjectService {
@@ -53,6 +55,28 @@ export class BoardObjectService {
       return;
     }
     await this.state.updateObject({ ...current, x, y, width, height });
+  }
+
+  // Crea un nuevo objeto del tipo indicado, centrado en (centerX, centerY).
+  // Los defaults viven en data/object-defaults.ts; este metodo solo arma la
+  // entidad, genera un id robusto y delega al estado.
+  async createObject(
+    type: BoardObjectType,
+    centerX: number,
+    centerY: number,
+  ): Promise<string> {
+    const defaults = OBJECT_DEFAULTS[type];
+    const id = `obj-${crypto.randomUUID().split('-')[0]}`;
+
+    await this.state.addObject({
+      id,
+      type,
+      x: Math.round(centerX - defaults.width / 2),
+      y: Math.round(centerY - defaults.height / 2),
+      ...defaults,
+    });
+
+    return id;
   }
 
   async deleteObject(id: string): Promise<void> {

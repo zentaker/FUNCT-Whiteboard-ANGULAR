@@ -12,6 +12,7 @@ Archivo: `src/app/features/board/repositories/local-board.repository.ts`
 | ------------------------------- | ----------------------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------- |
 | `getBoard(id)`                  | Trae el tablero completo. `null` si no existe.        | `BoardStateService` | Ilustra como una interfaz abstracta se sustituye por una implementacion concreta.              |
 | `saveBoard(board)`              | Reemplaza el tablero entero. Util para guardado manual.| (etapa de Export)   | Sirve como destino del futuro boton "Guardar". Hoy no se invoca.                               |
+| `addObject(boardId, object)`    | Agrega un objeto ya construido al tablero.            | `BoardStateService` | El repositorio no conoce defaults ni genera ids; solo persiste lo que recibe.                  |
 | `updateObject(boardId, object)` | Actualiza un objeto dentro del tablero.               | `BoardStateService` | La operacion mas frecuente del usuario tiene su propio metodo en el repo.                      |
 | `deleteObject(boardId, id)`     | Elimina un objeto dentro del tablero.                 | `BoardStateService` | Se elimina del documento; el DOM desaparece como consecuencia del signal, no por manipulacion. |
 
@@ -22,6 +23,7 @@ Archivo: `src/app/features/board/services/board-state.service.ts`
 | Metodo              | Proposito                                             | Quien la usa                   | Nota pedagogica                                                            |
 | ------------------- | ----------------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------- |
 | `loadBoard(id)`     | Lee del repo y actualiza el signal `activeBoard`.     | `BoardShellComponent.ngOnInit` | Carga inicial explicita en el componente, no magia automatica en el servicio. |
+| `addObject(obj)`    | Agrega un objeto al documento activo y refresca signal.| `BoardObjectService`           | Simetrico a `deleteObject`: repositorio primero, signal despues.              |
 | `updateObject(obj)` | Unico punto de propagacion de cambios a persistencia. | `BoardObjectService`           | Cuando llegue persistencia real, aqui van loading/optimistic/error handling. |
 | `deleteObject(id)`  | Elimina un objeto y refresca el signal `activeBoard`. | `BoardObjectService`           | Mismo flujo que drag: repositorio primero, signal despues, DOM al final.   |
 
@@ -71,5 +73,6 @@ Archivo: `src/app/features/board/services/board-object.service.ts`
 | --------------------------------------- | ----------------------------------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------- |
 | `moveObject(id, x, y)`                  | Cambia la posicion de un objeto.                      | `BoardCanvasComponent`   | Capa fina sobre `BoardStateService.updateObject`. Permite anadir reglas.                        |
 | `updateContent(id, c)`                  | Cambia el contenido textual de un objeto.             | (etapa de inline-edit)   | Lugar natural para validacion: longitud maxima, sanitizacion, etc.                              |
+| `createObject(type, centerX, centerY)`  | Crea un objeto nuevo usando `OBJECT_DEFAULTS`.        | `BoardCanvasComponent`   | Primer metodo que construye una entidad nueva. Usa `crypto.randomUUID()` para evitar colisiones. |
 | `resizeObject(id, x, y, width, height)` | Actualiza posicion y dimensiones simultaneamente.     | `ResizeHandlesComponent` | La posicion puede cambiar si el resize viene desde una esquina izquierda o superior.             |
 | `deleteObject(id)`                      | Elimina un objeto del board activo.                   | `BoardShellComponent`    | Primera mutacion disparada por teclado global en vez de mouse.                                  |

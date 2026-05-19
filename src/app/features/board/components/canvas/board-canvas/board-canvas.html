@@ -1,21 +1,24 @@
 <!--
   BoardCanvas
-  Un único div que actúa como contenedor relativo. Itera los objetos del
-  estado y por cada uno pinta el dispatcher, que decide qué componente
-  visual usar. La grilla de puntos del fondo está en el CSS asociado.
+  El contenedor externo maneja scroll y cursor. La surface interna es el sistema
+  de coordenadas donde viven los objetos; por eso tiene #surface y position
+  relative.
 -->
 <div
-  class="board-canvas position-relative w-100 h-100"
-  (mousedown)="onCanvasMouseDown()"
+  class="board-canvas w-100 h-100"
+  [style.cursor]="canvasCursor()"
+  (mousedown)="onCanvasMouseDown($event)"
 >
-  @for (obj of objects(); track obj.id) {
-    <app-board-object
-      [object]="obj"
-      appDraggableObject
-      [initialX]="obj.x"
-      [initialY]="obj.y"
-      (dragged)="onObjectDragged(obj.id, $event)"
-      (mousedown)="onObjectMouseDown(obj.id, $event)"
-    />
-  }
+  <div class="board-canvas__surface" #surface>
+    @for (obj of objects(); track obj.id) {
+      <app-board-object
+        [object]="obj"
+        appDraggableObject
+        [initialX]="obj.x"
+        [initialY]="obj.y"
+        (dragged)="onObjectDragged(obj.id, $event)"
+        (mousedown)="onObjectMouseDown(obj.id, $event)"
+      />
+    }
+  </div>
 </div>

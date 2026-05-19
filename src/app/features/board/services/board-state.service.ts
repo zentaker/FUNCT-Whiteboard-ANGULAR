@@ -60,6 +60,16 @@ export class BoardStateService {
     this.activeBoardSignal.set(refreshed);
   }
 
+  async addObject(object: BoardObject): Promise<void> {
+    const board = this.activeBoardSignal();
+    if (!board) {
+      return;
+    }
+    await this.repository.addObject(board.id, object);
+    const refreshed = await this.repository.getBoard(board.id);
+    this.activeBoardSignal.set(refreshed);
+  }
+
   async deleteObject(objectId: string): Promise<void> {
     const board = this.activeBoardSignal();
     if (!board) {

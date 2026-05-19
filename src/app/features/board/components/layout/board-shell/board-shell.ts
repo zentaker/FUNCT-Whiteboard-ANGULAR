@@ -13,9 +13,10 @@
 // y visible al lector que abre este archivo: no hay magia auto-inicializadora
 // escondida en el servicio.
 //
-// Desde la Etapa 5 tambien escucha Delete/Backspace a nivel de window. Los
-// atajos globales viven aqui porque el shell envuelve toda la experiencia del
-// board; los objetos visuales no necesitan saber que existe el teclado.
+// Desde la Etapa 5 escucha Delete/Backspace a nivel de window. En la Etapa 7
+// tambien captura Escape para salir de herramientas de creacion y volver a
+// select. Los atajos globales viven aqui porque el shell envuelve toda la
+// experiencia del board.
 
 import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { BoardTopbarComponent } from '../board-topbar/board-topbar';
@@ -25,6 +26,7 @@ import { BoardCanvasComponent } from '../../canvas/board-canvas/board-canvas';
 import { BoardStateService } from '../../../services/board-state.service';
 import { BoardSelectionService } from '../../../services/board-selection.service';
 import { BoardObjectService } from '../../../services/board-object.service';
+import { BoardToolService } from '../../../services/board-tool.service';
 import { INITIAL_BOARD_DOCUMENT } from '../../../../../data/mock-board';
 
 @Component({
@@ -43,6 +45,7 @@ export class BoardShellComponent implements OnInit {
   private readonly state = inject(BoardStateService);
   private readonly selectionService = inject(BoardSelectionService);
   private readonly objectService = inject(BoardObjectService);
+  private readonly toolService = inject(BoardToolService);
 
   async ngOnInit(): Promise<void> {
     await this.state.loadBoard(INITIAL_BOARD_DOCUMENT.id);
@@ -50,6 +53,12 @@ export class BoardShellComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   async onKeyDown(event: KeyboardEvent): Promise<void> {
+    if (event.key === 'Escape') {
+      this.toolService.setActiveTool('select');
+      this.selectionService.deselect();
+      return;
+    }
+
     if (event.key !== 'Delete' && event.key !== 'Backspace') {
       return;
     }

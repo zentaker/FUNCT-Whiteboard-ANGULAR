@@ -41,6 +41,19 @@ export class LocalBoardRepository extends BoardRepository {
     this.boards.set(board.id, { ...board, updatedAt: new Date() });
   }
 
+  async addObject(boardId: string, object: BoardObject): Promise<void> {
+    const board = this.boards.get(boardId);
+    if (!board) {
+      throw new Error(`No existe el tablero con id "${boardId}"`);
+    }
+
+    this.boards.set(boardId, {
+      ...board,
+      objects: [...board.objects, object],
+      updatedAt: new Date(),
+    });
+  }
+
   async updateObject(boardId: string, object: BoardObject): Promise<void> {
     const board = this.boards.get(boardId);
     if (!board) {
